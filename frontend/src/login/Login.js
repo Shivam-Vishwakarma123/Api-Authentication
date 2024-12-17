@@ -12,16 +12,24 @@ async function loginUser(credentials) {
 }
 
 export default function Login({ setToken }) {
+
+  // Set the state
   const [user_name, setUserName] = useState();
   const [password, setPassword] = useState();
+
+  // Handle the form
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = await loginUser({
       user_name,
       password,
     });
+
+    // This set the response fron login as token. In token there is data and token available this token will use as bearer token.
     setToken(token);
   };
+
+  // Return the view
   return (
     <div className="container my-5 mt-5">
       <div className="row">

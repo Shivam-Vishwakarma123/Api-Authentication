@@ -4,11 +4,13 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 function Navbar({ setToken }) {
 
+    // When click on logout button
     const handleLogout = () => {
         sessionStorage.removeItem("token");
         setToken(false);
     };
 
+    // Return the view
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary shadow">
             <div className="container">
