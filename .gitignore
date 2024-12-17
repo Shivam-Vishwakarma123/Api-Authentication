@@ -1,0 +1,24 @@
+# Node.js Backend
+/backend/node_modules/
+/backend/npm-debug.log
+/backend/yarn-error.log
+/backend/package-lock.json
+/backend/.env
+/backend/dist
+/backend/build
+
+# React Frontend
+/frontend/node_modules/
+/frontend/npm-debug.log
+/frontend/yarn-error.log
+/frontend/package-lock.json
+/frontend/.env
+/frontend/build
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
