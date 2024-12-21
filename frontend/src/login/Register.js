@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
 
-async function loginUser(credentials) {
+async function registerUser(credentials) {
   try {
-    const response = await fetch("http://localhost:5000/api/v1/user/login", {
+    const response = await fetch("http://localhost:5000/api/v1/user/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -13,25 +12,25 @@ async function loginUser(credentials) {
     });
 
     const data = await response.json();
-
+    
     if (!response.ok) {
-      throw new Error(data.message || "Invalid username or password");
+      throw new Error(data.message || "Registration failed");
     }
-
-    return data; // Assuming the API returns a token or user data
+    
+    return data; // Assuming the API returns a token or success message
   } catch (error) {
     throw new Error(error.message || "An error occurred");
   }
 }
 
-export default function Login({ setToken }) {
+export default function Register() {
   const [user_name, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Handle form submission
+  // Handle the form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -45,16 +44,13 @@ export default function Login({ setToken }) {
     setIsLoading(true); // Set loading state to true
 
     try {
-      const response = await loginUser({ user_name, password });
+      const response = await registerUser({ user_name, password });
 
-      // Assuming the response contains the token
-      setToken(response); // Set token in state or storage
-
-      // Navigate to the dashboard or another protected page after successful login
-      navigate("/employee");
+      // Navigate to login page after successful registration
+      navigate("/login");
 
     } catch (error) {
-      setErrorMessage(error.message); // Show error message if login fails
+      setErrorMessage(error.message); // Show error message
     } finally {
       setIsLoading(false); // Set loading state back to false
     }
@@ -66,7 +62,7 @@ export default function Login({ setToken }) {
         <div className="col-md-6 offset-md-3 col-12">
           <div className="card text-center">
             <div className="card-header" style={{ background: "#d4dcff" }}>
-              <h3>Please Log In</h3>
+              <h3>Please Register</h3>
             </div>
             <div className="card-body">
               <form onSubmit={handleSubmit}>
@@ -93,10 +89,10 @@ export default function Login({ setToken }) {
                 {errorMessage && <p className="text-danger">{errorMessage}</p>}
                 <div>
                   <button type="submit" className="btn btn-success p-2 my-3 px-4" disabled={isLoading}>
-                    {isLoading ? "Logging In..." : "Log In"}
+                    {isLoading ? "Registering..." : "Register"}
                   </button>
-                  <Link to="/register" className="my-4 float-end">
-                    Register
+                  <Link to="/login" className="my-4 float-end">
+                    Login
                   </Link>
                 </div>
               </form>
@@ -107,7 +103,3 @@ export default function Login({ setToken }) {
     </div>
   );
 }
-
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired,
-};
